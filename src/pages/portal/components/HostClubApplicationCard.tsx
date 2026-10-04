@@ -18,6 +18,7 @@ import {
   saveStoredSubmission, 
   type FormSubmissionRecord 
 } from '@/lib/ride/formsStorage';
+import { safeHref } from '@/lib/safeHref';
 
 export function HostClubApplicationCard() {
   const { me } = useAuth();
@@ -457,7 +458,7 @@ export function HostClubApplicationCard() {
             {effectiveSubmission.values?.proposalDriveUrl && (
               <div className="pt-2">
                 <a
-                  href={effectiveSubmission.values.proposalDriveUrl}
+                  href={safeHref(effectiveSubmission.values.proposalDriveUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-[#171515] bg-[#FBC02D] text-[#171515] font-black hover:bg-yellow-400 transition-all ride-pop-sm"

@@ -340,7 +340,6 @@ const ExpandingCarousel: FC<ExpandingCarouselProps> = () => {
 
   const getSafeSurfaceHref = (surface?: FlagshipSurface): string | undefined => {
     if (!surface) return undefined;
-    if (surface === 'ride') return 'https://delhimerijan.rotaract3011.org';
     return surfaceHrefs[surface] || surfaceHref(surface) || `/?surface=${surface}`;
   };
 

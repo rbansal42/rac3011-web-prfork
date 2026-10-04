@@ -19,6 +19,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
 import { fetchSettings, updateSettings, type SettingsMap } from '@/lib/settings/api';
 import { fetchPublicClubs, fetchZones, type PublicClub, type Zone } from '@/lib/clubs';
+import { safeHref } from '@/lib/safeHref';
 import { 
   fetchAdminForms, 
   createAdminForm, 
@@ -1191,7 +1192,7 @@ export function FormBuilderAdminPage() {
                               <td className="p-3.5 max-w-xs">
                                 {driveLink ? (
                                   <a
-                                    href={driveLink}
+                                    href={safeHref(driveLink)}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="inline-flex items-center gap-1.5 text-blue-600 font-bold hover:underline"
@@ -1361,7 +1362,7 @@ export function FormBuilderAdminPage() {
                           <div className="text-xs text-fg">
                             {isLink ? (
                               <a
-                                href={String(val)}
+                                href={safeHref(String(val))}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="inline-flex items-center gap-1.5 text-blue-600 font-bold hover:underline break-all"

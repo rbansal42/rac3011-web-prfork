@@ -83,7 +83,7 @@ export function RideActiveLoginsTab() {
   });
 
   const revokeAllMutation = useMutation({
-    mutationFn: () => revokeAllSessions(),
+    mutationFn: () => revokeAllSessions('ride'),
     onSuccess: (res) => {
       setActionToast(`Logged out everyone! All other active sessions (${res.count}) terminated.`);
       setConfirmRevokeAll(false);
@@ -91,7 +91,7 @@ export function RideActiveLoginsTab() {
       setTimeout(() => setActionToast(null), 4000);
     },
     onError: () => {
-      setActionToast('Logged out everyone! All active participant dashboard sessions terminated.');
+      setActionToast('Failed to revoke sessions. Please try again or check permissions.');
       setConfirmRevokeAll(false);
       setTimeout(() => setActionToast(null), 4000);
     },

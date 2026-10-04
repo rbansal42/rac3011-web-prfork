@@ -16,6 +16,12 @@
     <meta name="keywords" content="Rotaract, Rotaract District Organization 3011, Rotary International, Delhi, NCR, youth leadership, fellowship, community service, social impact" />
     <meta name="author" content="Rotaract District Organization 3011" />
     <meta name="robots" content="index, follow" />
+    <script>
+      if (typeof window !== 'undefined' && (window.location.hostname.startsWith('testing.') || window.location.hostname.includes('.testing.'))) {
+        var rMeta = document.querySelector('meta[name="robots"]');
+        if (rMeta) rMeta.setAttribute('content', 'noindex, nofollow');
+      }
+    </script>
 
     <!-- Open Graph / Social Media Sharing -->
     <meta property="og:type" content="website" />
@@ -40,8 +46,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://api.rotaract3011.org" crossorigin />
     <link rel="dns-prefetch" href="https://api.rotaract3011.org" />
-    <!-- Leaflet styles -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script>
       try {
         localStorage.setItem('rac3011.theme', 'light');

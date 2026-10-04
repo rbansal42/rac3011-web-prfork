@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { apiFetch } from '@/lib/api';
+import { apiFetch, API_ORIGIN } from '@/lib/api';
 
 export const checkinItemSchema = z.object({
   id: z.string(),
@@ -62,7 +62,7 @@ export async function downloadCheckinCsv(eventId: string, filename = 'checkins.c
   const headers: Record<string, string> = {};
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`/api/events/${eventId}/checkins/export-csv`, {
+  const res = await fetch(`${API_ORIGIN}/events/${eventId}/checkins/export-csv`, {
     headers,
     credentials: 'include',
   });

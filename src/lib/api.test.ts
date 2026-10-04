@@ -26,9 +26,13 @@ describe('apiFetch', () => {
     const out = await apiFetch('/x', { schema: z.object({ n: z.number() }) });
     expect(out.n).toBe(1);
   });
-  it('throws ApiError on schema mismatch', async () => {
+  it('warns and returns fallback data on schema mismatch without crashing', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     mockFetch.mockResolvedValue(reply(200, { n: 'x' }));
-    await expect(apiFetch('/x', { schema: z.object({ n: z.number() }) })).rejects.toBeInstanceOf(ApiError);
+    const out = await apiFetch<{ n: any }>('/x', { schema: z.object({ n: z.number() }) });
+    expect(out).toEqual({ n: 'x' });
+    expect(warnSpy).toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
   it('throws ApiError with status, code, details', async () => {
     mockFetch.mockResolvedValue(reply(409, { statusCode: 409, message: 'Taken', code: 'SLOT_TAKEN' }));

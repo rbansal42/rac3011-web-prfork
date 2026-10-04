@@ -53,9 +53,11 @@ describe('surfaceHref / mainSiteHref', () => {
   it('surfaceHref adds the testing. prefix only when already on a testing host', () => {
     withLocation('https://rotaract3011.org/', () => {
       expect(surfaceHref('drishti')).toBe('https://drishti.rotaract3011.org/');
+      expect(surfaceHref('ride')).toBe('https://delhimerijan.rotaract3011.org/');
     });
     withLocation('https://testing.rotaract3011.org/some/page', () => {
       expect(surfaceHref('drishti')).toBe('https://testing.drishti.rotaract3011.org/');
+      expect(surfaceHref('ride')).toBe('https://testing.delhimerijan.rotaract3011.org/');
     });
   });
 
