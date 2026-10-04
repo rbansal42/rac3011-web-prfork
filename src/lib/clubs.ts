@@ -81,7 +81,7 @@ export async function fetchClub(id: string): Promise<Club> {
 export async function createClub(payload: Partial<Club>): Promise<Club> {
   return apiFetch('/clubs', {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: payload,
     schema: clubSchema.passthrough(),
   });
 }
@@ -89,7 +89,7 @@ export async function createClub(payload: Partial<Club>): Promise<Club> {
 export async function updateClub(id: string, payload: Partial<Club>): Promise<Club> {
   return apiFetch(`/clubs/${encodeURIComponent(id)}`, {
     method: 'PATCH',
-    body: JSON.stringify(payload),
+    body: payload,
     schema: clubSchema.passthrough(),
   });
 }

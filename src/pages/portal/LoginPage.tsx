@@ -126,12 +126,14 @@ export function LoginPage() {
         try {
           const parsed = new URL(next);
           // Only allow safe redirections to rotaract3011.org domains or localhost
-          if (
+          const isAllowed =
             parsed.hostname === 'localhost' ||
             parsed.hostname === '127.0.0.1' ||
-            parsed.hostname.endsWith('rotaract3011.org') ||
-            parsed.hostname.includes('delhimerijaan')
-          ) {
+            parsed.hostname === 'rotaract3011.org' ||
+            parsed.hostname.endsWith('.rotaract3011.org') ||
+            parsed.hostname === 'delhimerijaan.org' ||
+            parsed.hostname.endsWith('.delhimerijaan.org');
+          if (isAllowed) {
             window.location.assign(next);
             return;
           }

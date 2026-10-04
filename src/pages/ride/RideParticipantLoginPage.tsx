@@ -24,11 +24,17 @@ export function RideParticipantLoginPage() {
   const [forgotError, setForgotError] = useState<string | null>(null);
   const [forgotSuccess, setForgotSuccess] = useState<string | null>(null);
 
+  const getSafeNext = (param: string | null): string => {
+    if (param && param.startsWith('/') && !param.startsWith('//') && !param.includes('\\')) {
+      return param;
+    }
+    return '/dashboard';
+  };
+
   // If already authenticated as a participant, redirect to dashboard
   useEffect(() => {
     if (status === 'authenticated') {
-      const next = params.get('next') || '/dashboard';
-      navigate(next, { replace: true });
+      navigate(getSafeNext(params.get('next')), { replace: true });
     }
   }, [status, navigate, params]);
 
@@ -44,8 +50,7 @@ export function RideParticipantLoginPage() {
     setLoading(true);
     try {
       await login(email.trim(), password.trim());
-      const next = params.get('next') || '/dashboard';
-      navigate(next, { replace: true });
+      navigate(getSafeNext(params.get('next')), { replace: true });
     } catch (err: any) {
       setError(
         err instanceof ApiError

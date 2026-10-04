@@ -37,9 +37,8 @@ outputs/
 *.cmd
 *.key
 *.pem
-*HANDOFF*
 *.tar.gz
+*.xlsx
 public/showcase_images/
-*handoff*
-*CONTEXT*
-*context*
+CONTEXT.md
+PROJECT_CONTEXT_HANDOFF.md

@@ -470,7 +470,13 @@ export default function DistrictMap({
       // Color-code each pin dynamically based on its official regional zone
       const neonColor = getClubNeonColor(club);
 
-      const displayName = (club.shortName || club.name || 'Club').replace(/^RAC\s+/i, '');
+      const rawName = (club.shortName || club.name || 'Club').replace(/^RAC\s+/i, '');
+      const displayName = rawName
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
       const isActive = selectedClubId === club.id || activeSlideoutClub?.id === club.id;
 
       const customIcon = Leaflet.divIcon({
