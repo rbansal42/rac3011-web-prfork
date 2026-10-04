@@ -844,7 +844,7 @@ export default function DistrictMap({
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                   <User size={13} style={{ color: 'var(--rotaract-pink)', flexShrink: 0 }} />
                                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                    Pres: <strong>{club.president || 'Rtr. Club President'}</strong>
+                                    Pres: <strong>{club.president ? club.president : 'Only President Pending'}</strong>
                                   </span>
                                 </div>
 
@@ -1265,107 +1265,109 @@ export default function DistrictMap({
                           </span>
                         </div>
 
-                        <div style={{ fontSize: '1.08rem', fontWeight: 900, color: '#18181B' }}>
-                          {currentSlideoutClub.president || 'Rtr. Club President'}
+                        <div style={{ fontSize: '1.08rem', fontWeight: 900, color: currentSlideoutClub.president ? '#18181B' : '#64748B', fontStyle: currentSlideoutClub.president ? 'normal' : 'italic' }}>
+                          {currentSlideoutClub.president || 'Only President Pending'}
                         </div>
 
                         {/* President Contact Actions */}
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '10px' }}>
-                          {isLoggedIn ? (
-                            <>
-                              {currentSlideoutClub.phone && (
-                                <a
-                                  href={`tel:${currentSlideoutClub.phone}`}
-                                  style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '6px',
-                                    padding: '7px 12px',
-                                    borderRadius: '8px',
-                                    background: '#FFF1F2',
-                                    border: '1px solid #FECDD3',
-                                    color: '#D81B60',
-                                    fontSize: '0.8rem',
-                                    fontWeight: 700,
-                                    textDecoration: 'none',
-                                    transition: 'all 0.2s ease',
-                                  }}
-                                >
-                                  <Phone size={12} /> +91 {currentSlideoutClub.phone}
-                                </a>
-                              )}
+                        {currentSlideoutClub.president ? (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '10px' }}>
+                            {isLoggedIn ? (
+                              <>
+                                {currentSlideoutClub.phone && (
+                                  <a
+                                    href={`tel:${currentSlideoutClub.phone}`}
+                                    style={{
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '6px',
+                                      padding: '7px 12px',
+                                      borderRadius: '8px',
+                                      background: '#FFF1F2',
+                                      border: '1px solid #FECDD3',
+                                      color: '#D81B60',
+                                      fontSize: '0.8rem',
+                                      fontWeight: 700,
+                                      textDecoration: 'none',
+                                      transition: 'all 0.2s ease',
+                                    }}
+                                  >
+                                    <Phone size={12} /> +91 {currentSlideoutClub.phone}
+                                  </a>
+                                )}
 
-                              {currentSlideoutClub.email && (
+                                {currentSlideoutClub.email && (
+                                  <a
+                                    href={`mailto:${currentSlideoutClub.email}`}
+                                    style={{
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '5px',
+                                      padding: '6px 11px',
+                                      borderRadius: '8px',
+                                      background: '#FFFFFF',
+                                      border: '1px solid #E4E4E7',
+                                      color: '#D81B60',
+                                      fontSize: '0.78rem',
+                                      fontWeight: 700,
+                                      textDecoration: 'none',
+                                      maxWidth: '100%',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                    }}
+                                  >
+                                    <Mail size={12} /> {currentSlideoutClub.email}
+                                  </a>
+                                )}
+
                                 <a
-                                  href={`mailto:${currentSlideoutClub.email}`}
+                                  href="/portal/directory"
                                   style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
                                     gap: '5px',
                                     padding: '6px 11px',
                                     borderRadius: '8px',
-                                    background: '#FFFFFF',
-                                    border: '1px solid #E4E4E7',
-                                    color: '#D81B60',
+                                    background: '#F8FAFC',
+                                    border: '1px solid #E2E8F0',
+                                    color: '#475569',
                                     fontSize: '0.78rem',
                                     fontWeight: 700,
                                     textDecoration: 'none',
-                                    maxWidth: '100%',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
                                   }}
                                 >
-                                  <Mail size={12} /> {currentSlideoutClub.email}
+                                  <User size={12} /> View in Directory
                                 </a>
-                              )}
-
-                              <a
-                                href="/portal/directory"
+                              </>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (onOpenLoginModal) onOpenLoginModal();
+                                  else window.location.href = '/portal/login';
+                                }}
+                                title="Login to get the contacts of DAC Members, presidents and secretaries"
                                 style={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
-                                  gap: '5px',
-                                  padding: '6px 11px',
+                                  gap: '6px',
+                                  padding: '7px 14px',
                                   borderRadius: '8px',
-                                  background: '#F8FAFC',
-                                  border: '1px solid #E2E8F0',
-                                  color: '#475569',
+                                  background: '#FFF1F2',
+                                  border: '1px dashed #FECDD3',
+                                  color: '#D81B60',
                                   fontSize: '0.78rem',
                                   fontWeight: 700,
-                                  textDecoration: 'none',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s ease',
                                 }}
                               >
-                                <User size={12} /> View in Directory
-                              </a>
-                            </>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (onOpenLoginModal) onOpenLoginModal();
-                                else window.location.href = '/portal/login';
-                              }}
-                              title="Login to get the contacts of DAC Members, presidents and secretaries"
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '7px 14px',
-                                borderRadius: '8px',
-                                background: '#FFF1F2',
-                                border: '1px dashed #FECDD3',
-                                color: '#D81B60',
-                                fontSize: '0.78rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease',
-                              }}
-                            >
-                              <Lock size={12} /> Log in to view President's contact
-                            </button>
-                          )}
-                        </div>
+                                <Lock size={12} /> Log in to view President's contact
+                              </button>
+                            )}
+                          </div>
+                        ) : null}
                       </div>
 
                       {/* Club Secretary Card - omitted if empty or placeholder */}
