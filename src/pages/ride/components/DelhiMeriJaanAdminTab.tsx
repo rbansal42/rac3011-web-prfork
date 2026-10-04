@@ -1,3 +1,4 @@
+import { csvRow } from '@/lib/csv';
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiFetch } from '@/lib/api';
@@ -124,7 +125,7 @@ export function DelhiMeriJaanAdminTab() {
   const exportCSV = () => {
     const headers = ['Ref ID,Full Name,Email,Phone,Type,District,Club,Role,Status,Created At'];
     const rows = filtered.map((p) =>
-      `"${p.id}","${p.fullName}","${p.email}","${p.phone}","${p.participantType}","${p.districtNumber}","${p.clubName}","${p.rotaryRole}","${p.status}","${p.createdAt}"`
+      csvRow([p.id, p.fullName, p.email, p.phone, p.participantType, p.districtNumber, p.clubName, p.rotaryRole, p.status, p.createdAt]),
     );
     const blob = new Blob([[...headers, ...rows].join('\n')], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);

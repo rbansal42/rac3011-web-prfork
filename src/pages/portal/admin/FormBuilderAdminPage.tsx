@@ -1,3 +1,4 @@
+import { csvRow } from '@/lib/csv';
 import { useState, useMemo, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
@@ -373,28 +374,30 @@ export function FormBuilderAdminPage() {
     
     const rows = submissions.map((s) => {
       const vals = s.values || {};
-      const answerCols = fieldKeys.map((k) => `"${String(vals[k] ?? '').replace(/"/g, '""')}"`);
-      return [
-        `"${s.id}"`,
-        `"${(s.applicantName || '').replace(/"/g, '""')}"`,
-        `"${(s.applicantEmail || '').replace(/"/g, '""')}"`,
-        `"${(s.applicantPhone || '').replace(/"/g, '""')}"`,
-        `"${(s.clubName || '').replace(/"/g, '""')}"`,
-        `"${s.status}"`,
-        `"${new Date(s.submittedAt).toLocaleString()}"`,
+      const answerCols = fieldKeys.map((k) => vals[k] ?? '');
+      return csvRow([
+        s.id,
+        s.applicantName || '',
+        s.applicantEmail || '',
+        s.applicantPhone || '',
+        s.clubName || '',
+        s.status,
+        new Date(s.submittedAt).toLocaleString(),
         ...answerCols,
-        `"${(s.notes || '').replace(/"/g, '""')}"`,
-      ].join(',');
+        s.notes || '',
+      ]);
     });
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
-    const encodedUri = encodeURI(csvContent);
+    const csvString = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const blobUrl = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
+    link.setAttribute('href', blobUrl);
     link.setAttribute('download', `${activeResponseForm?.slug || 'form'}-submissions-${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
   };
 
   const enabledCount = allowedClubIds.length;

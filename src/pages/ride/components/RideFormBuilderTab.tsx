@@ -1,3 +1,4 @@
+import { csvRow } from '@/lib/csv';
 import { useState, useMemo, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
@@ -325,24 +326,20 @@ export function RideFormBuilderTab() {
 
     const rows = filteredSubmissions.map((s) => {
       const vals = s.values || {};
-      const answerCols = fieldCols.map((col) => {
-        const raw = vals[col];
-        const str = raw === undefined || raw === null ? '' : typeof raw === 'object' ? JSON.stringify(raw) : String(raw);
-        return `"${str.replace(/"/g, '""')}"`;
-      });
+      const answerCols = fieldCols.map((col) => vals[col]);
 
-      return [
-        `"${s.id}"`,
-        `"${s.participant.fullName.replace(/"/g, '""')}"`,
-        `"${s.participant.email}"`,
-        `"${s.participant.phone}"`,
-        `"${s.participant.homeDistrict}"`,
-        `"${s.participant.homeClubName.replace(/"/g, '""')}"`,
-        `"${s.status}"`,
-        `"${(s.reviewNotes || '').replace(/"/g, '""')}"`,
-        `"${new Date(s.createdAt).toISOString()}"`,
+      return csvRow([
+        s.id,
+        s.participant.fullName,
+        s.participant.email,
+        s.participant.phone,
+        s.participant.homeDistrict,
+        s.participant.homeClubName,
+        s.status,
+        s.reviewNotes || '',
+        new Date(s.createdAt).toISOString(),
         ...answerCols,
-      ].join(',');
+      ]);
     });
 
     const csvString = [headers.join(','), ...rows].join('\n');
