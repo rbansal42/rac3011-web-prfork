@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { Select } from '@/components/ui/Select';
 import { Modal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
+import { safeHref } from '@/lib/safeHref';
 import {
   fetchRideAdminForms,
   createRideAdminForm,
@@ -344,14 +345,16 @@ export function RideFormBuilderTab() {
       ].join(',');
     });
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
-    const encodedUri = encodeURI(csvContent);
+    const csvString = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const blobUrl = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
+    link.setAttribute('href', blobUrl);
     link.setAttribute('download', `${activeFormObj.slug}_submissions_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
   };
 
   return (
@@ -969,7 +972,7 @@ export function RideFormBuilderTab() {
                           <span className="text-xs text-neutral-400 italic">No answer provided</span>
                         ) : isLink ? (
                           <a
-                            href={String(val)}
+                            href={safeHref(String(val))}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-xs font-black text-[#19539D] hover:underline bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200"

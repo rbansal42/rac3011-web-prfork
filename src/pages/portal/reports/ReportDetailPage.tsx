@@ -62,6 +62,7 @@ function PushToShowcaseModal({
     date: string;
     summary: string;
     beneficiaries?: number;
+    clubId?: string;
   };
 }) {
   const { toast } = useToast();
@@ -89,6 +90,7 @@ function PushToShowcaseModal({
     mutationFn: () =>
       createProject({
         title,
+        clubId: initialData.clubId,
         category: areasOfFocus[0] || avenueOfService || '',
         avenueOfService,
         areasOfFocus,
@@ -899,6 +901,7 @@ function ReportDetailPageInner() {
     date: string;
     summary: string;
     beneficiaries?: number;
+    clubId?: string;
   } | null>(null);
 
   const [resetModalOpen, setResetModalOpen] = useState(false);
@@ -973,6 +976,7 @@ function ReportDetailPageInner() {
                   title: `${clubName} ${monthLabel} Initiative`,
                   summary: report.notes || `Key highlights and impact metrics reported for ${monthLabel}.`,
                   date: report.month.slice(0, 10),
+                  clubId: report.clubId,
                 });
               }}
             >
@@ -1239,6 +1243,7 @@ function ReportDetailPageInner() {
                                 summary: actSummary || `Activity reported in the ${monthLabel} district report.`,
                                 date: actDate.slice(0, 10),
                                 beneficiaries: actBen,
+                                clubId: report.clubId,
                               });
                             }}
                           >

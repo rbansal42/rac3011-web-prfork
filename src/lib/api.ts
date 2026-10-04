@@ -76,7 +76,7 @@ export async function apiFetch<T = unknown>(path: string, opts: Options<T> = {})
   if (opts.schema) {
     const parsed = opts.schema.safeParse(data);
     if (!parsed.success) {
-      console.warn(`Zod schema warning for ${path}:`, parsed.error.issues, data);
+      console.warn(`Zod schema warning for ${path}:`, parsed.error.issues);
       return data as T;
     }
     return parsed.data;
