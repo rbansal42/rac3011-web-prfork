@@ -87,7 +87,7 @@ const routes: RouteObject[] = [
       { element: <AdminLayout />, children: portalAdminRouteObjects },
     ],
   },
-  { path: '/__ui', element: <UiKitPage /> },
+  ...(import.meta.env.DEV ? [{ path: '/__ui', element: <UiKitPage /> }] : []),
   { path: '*', element: <DistrictApp /> },
 ];
 

@@ -9,7 +9,6 @@ export const PUBLIC_ROUTES: string[] = [
   '/resources',
   '/resources/documents',
   '/resources/guest-kit',
-  '/resources/sister-club',
   '/publications',
   '/get-involved/new-club',
   '/get-involved/sponsor',
@@ -17,7 +16,6 @@ export const PUBLIC_ROUTES: string[] = [
   '/partners',
   '/contact',
   '/calendar',
-  '/drr-calendar',
   '/privacy-policy',
   '/terms-of-service',
 ];

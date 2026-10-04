@@ -21,9 +21,6 @@ function currentEnvPrefix(hostname: string): '' | 'testing.' {
 }
 
 export function resolveSurface(hostname: string, search = ''): Surface {
-  const q = new URLSearchParams(search).get('surface');
-  if (isSurface(q)) return q;
-
   const host = hostname.toLowerCase().replace(/\.$/, '');
   const labels = host.split('.');
   const first = labels[0] ?? '';
@@ -36,6 +33,10 @@ export function resolveSurface(hostname: string, search = ''): Surface {
     if (labels[1] === 'delhimerijaan' || labels[1] === 'delhimerijan') return 'ride';
     const byTestingPrefix = PROJECT_SURFACES.find((s) => s === labels[1]);
     if (byTestingPrefix) return byTestingPrefix;
+  }
+  if (isLocalHost(host)) {
+    const q = new URLSearchParams(search).get('surface');
+    if (isSurface(q)) return q;
   }
   return 'main';
 }
@@ -70,7 +71,8 @@ export function surfaceHref(key: Exclude<Surface, 'main'>): string {
       url.pathname = '/';
       return url.toString();
     }
-    return 'https://delhimerijan.rotaract3011.org';
+    const prefix = typeof window !== 'undefined' ? currentEnvPrefix(window.location.hostname) : '';
+    return prefix ? `https://${prefix}delhimerijan.rotaract3011.org/` : 'https://delhimerijan.rotaract3011.org/';
   }
   const url = new URL(window.location.href);
   if (isLocalHost(url.hostname)) {

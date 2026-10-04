@@ -51,16 +51,6 @@ const DRRCard = memo(function DRRCard({ drr, eraConfig, isCurrentDRR, initials, 
   const collages = useMemo(() => getDrrCollages(drr.id), [drr.id]);
   const hasCollages = collages.length > 0;
 
-  // Eagerly preload all collages for instantaneous slide response
-  useEffect(() => {
-    if (collages.length > 0 && (isHovered || isFlipped || isLightboxOpen)) {
-      collages.forEach((url) => {
-        const img = new Image();
-        img.src = url;
-      });
-    }
-  }, [collages, isHovered, isFlipped, isLightboxOpen]);
-
   useEffect(() => {
     setCurrentSrc(drr.photo || null);
     setImgFailed(false);
@@ -220,8 +210,9 @@ const DRRCard = memo(function DRRCard({ drr, eraConfig, isCurrentDRR, initials, 
                 <img
                   src={currentSrc}
                   alt={drr.name}
-                  loading="lazy"
+                  loading={isCurrentDRR ? 'eager' : 'lazy'}
                   decoding="async"
+                  {...(isCurrentDRR ? ({ fetchpriority: 'high' } as any) : {})}
                   onError={handleImageError}
                   style={{
                     width: '100%',
