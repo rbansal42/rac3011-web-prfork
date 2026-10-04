@@ -3,8 +3,8 @@
  * Blocks `javascript:`, `data:`, `vbscript:`, etc.
  * Only permits `http:`, `https:`, `mailto:`, `tel:`, or relative paths (`/`).
  */
-export function safeHref(url: string | null | undefined, fallback = '#'): string {
-  if (!url) return fallback;
+export function safeHref(url: unknown, fallback = '#'): string {
+  if (typeof url !== 'string' || !url) return fallback;
   const trimmed = url.trim();
   if (!trimmed) return fallback;
 
